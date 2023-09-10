@@ -29,7 +29,7 @@ const App: React.FC = () => {
 				START: e.key === "Enter",
 			})
 		})
-		document.addEventListener("keyup", (e) => {
+		document.addEventListener("keyup", (e: any) => {
 			WasmBoy.setJoypadState({
 				UP: false,
 				RIGHT: false,
