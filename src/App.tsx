@@ -1,5 +1,6 @@
 import { css } from "@emotion/react"
 import { useEffect, useRef, useState } from "react"
+// @ts-ignore
 import { WasmBoy } from "wasmboy"
 
 const objectToArray = (obj: Record<number, number>): number[] => {
@@ -14,6 +15,33 @@ const App: React.FC = () => {
 	const [playing, setPlaying] = useState(false)
 	const directoryHandleRef = useRef<FileSystemDirectoryHandle>()
 	const canvasRef = useRef<HTMLCanvasElement>(null)
+
+	useEffect(() => {
+		document.addEventListener("keydown", (e) => {
+			WasmBoy.setJoypadState({
+				UP: e.key === "ArrowUp",
+				RIGHT: e.key === "ArrowRight",
+				DOWN: e.key === "ArrowDown",
+				LEFT: e.key === "ArrowLeft",
+				A: e.key === "z",
+				B: e.key === "x",
+				SELECT: e.key === "Shift",
+				START: e.key === "Enter",
+			})
+		})
+		document.addEventListener("keyup", (e) => {
+			WasmBoy.setJoypadState({
+				UP: false,
+				RIGHT: false,
+				DOWN: false,
+				LEFT: false,
+				A: false,
+				B: false,
+				SELECT: false,
+				START: false,
+			})
+		})
+	}, [])
 
 	return (
 		<div
@@ -153,108 +181,317 @@ const App: React.FC = () => {
 					display: flex;
 					justify-content: space-between;
 					margin: 20px auto;
-					width: 300px;
+					width: 400px;
 				`}>
-				<button
-					onMouseDown={() =>
-						WasmBoy.setJoypadState({
-							UP: false,
-							RIGHT: false,
-							DOWN: false,
-							LEFT: false,
-							A: true,
-							B: false,
-							SELECT: false,
-							START: false,
-						})
-					}
-					onMouseUp={() =>
-						WasmBoy.setJoypadState({
-							UP: false,
-							RIGHT: false,
-							DOWN: false,
-							LEFT: false,
-							A: false,
-							B: false,
-							SELECT: false,
-							START: false,
-						})
-					}
+				<div
 					css={css`
-						display: grid;
-						place-items: center;
-						margin: auto;
-						width: 48px;
-						height: 48px;
-						text-shadow: -1px -1px black, 1px 1px white;
-						font-size: 24px;
-						color: #888;
-						background-color: #333;
-						border-radius: 50%;
-						border-color: #333;
-						box-shadow: 0 0.2em #333;
-						cursor: pointer;
-						&:active {
-							box-shadow: none;
-							position: relative;
-							top: 0.2em;
-						}
+						flex: 1;
+						position: relative;
 					`}>
-					A
-				</button>
-				<button
-					onMouseDown={() =>
-						WasmBoy.setJoypadState({
-							UP: false,
-							RIGHT: false,
-							DOWN: false,
-							LEFT: false,
-							A: false,
-							B: true,
-							SELECT: false,
-							START: false,
-						})
-					}
-					onMouseUp={() =>
-						WasmBoy.setJoypadState({
-							UP: false,
-							RIGHT: false,
-							DOWN: false,
-							LEFT: false,
-							A: false,
-							B: false,
-							SELECT: false,
-							START: false,
-						})
-					}
+					<button
+						onMouseDown={() =>
+							WasmBoy.setJoypadState({
+								UP: true,
+								RIGHT: false,
+								DOWN: false,
+								LEFT: false,
+								A: false,
+								B: false,
+								SELECT: false,
+								START: false,
+							})
+						}
+						onMouseUp={() =>
+							WasmBoy.setJoypadState({
+								UP: false,
+								RIGHT: false,
+								DOWN: false,
+								LEFT: false,
+								A: false,
+								B: false,
+								SELECT: false,
+								START: false,
+							})
+						}
+						css={css`
+							transform: translate3d(0, 20%, 0);
+							display: grid;
+							place-items: center;
+							margin: auto;
+							width: 48px;
+							height: 48px;
+							text-shadow: -1px -1px black, 1px 1px white;
+							font-size: 24px;
+							color: #888;
+							background-color: #333;
+							border-radius: 50%;
+							border-color: #333;
+							box-shadow: 0 0.2em #333;
+							cursor: pointer;
+							&:active {
+								box-shadow: none;
+								position: relative;
+								top: 0.2em;
+							}
+						`}>
+						↑
+					</button>
+					<div
+						css={css`
+							display: flex;
+							justify-content: center;
+						`}>
+						<button
+							onMouseDown={() =>
+								WasmBoy.setJoypadState({
+									UP: false,
+									RIGHT: false,
+									DOWN: false,
+									LEFT: true,
+									A: false,
+									B: false,
+									SELECT: false,
+									START: false,
+								})
+							}
+							onMouseUp={() =>
+								WasmBoy.setJoypadState({
+									UP: false,
+									RIGHT: false,
+									DOWN: false,
+									LEFT: false,
+									A: false,
+									B: false,
+									SELECT: false,
+									START: false,
+								})
+							}
+							css={css`
+								display: grid;
+								place-items: center;
+								margin: auto;
+								width: 48px;
+								height: 48px;
+								text-shadow: -1px -1px black, 1px 1px white;
+								font-size: 24px;
+								color: #888;
+								background-color: #333;
+								border-radius: 50%;
+								border-color: #333;
+								box-shadow: 0 0.2em #333;
+								cursor: pointer;
+								&:active {
+									box-shadow: none;
+									position: relative;
+									top: 0.2em;
+								}
+							`}>
+							←
+						</button>
+						<button
+							onMouseDown={() =>
+								WasmBoy.setJoypadState({
+									UP: false,
+									RIGHT: true,
+									DOWN: false,
+									LEFT: false,
+									A: false,
+									B: false,
+									SELECT: false,
+									START: false,
+								})
+							}
+							onMouseUp={() =>
+								WasmBoy.setJoypadState({
+									UP: false,
+									RIGHT: false,
+									DOWN: false,
+									LEFT: false,
+									A: false,
+									B: false,
+									SELECT: false,
+									START: false,
+								})
+							}
+							css={css`
+								display: grid;
+								place-items: center;
+								margin: auto;
+								width: 48px;
+								height: 48px;
+								text-shadow: -1px -1px black, 1px 1px white;
+								font-size: 24px;
+								color: #888;
+								background-color: #333;
+								border-radius: 50%;
+								border-color: #333;
+								box-shadow: 0 0.2em #333;
+								cursor: pointer;
+								&:active {
+									box-shadow: none;
+									position: relative;
+									top: 0.2em;
+								}
+							`}>
+							→
+						</button>
+					</div>
+					<button
+						onMouseDown={() =>
+							WasmBoy.setJoypadState({
+								UP: false,
+								RIGHT: false,
+								DOWN: true,
+								LEFT: false,
+								A: false,
+								B: false,
+								SELECT: false,
+								START: false,
+							})
+						}
+						onMouseUp={() =>
+							WasmBoy.setJoypadState({
+								UP: false,
+								RIGHT: false,
+								DOWN: false,
+								LEFT: false,
+								A: false,
+								B: false,
+								SELECT: false,
+								START: false,
+							})
+						}
+						css={css`
+							transform: translate3d(0, -20%, 0);
+							display: grid;
+							place-items: center;
+							margin: auto;
+							width: 48px;
+							height: 48px;
+							text-shadow: -1px -1px black, 1px 1px white;
+							font-size: 24px;
+							color: #888;
+							background-color: #333;
+							border-radius: 50%;
+							border-color: #333;
+							box-shadow: 0 0.2em #333;
+							cursor: pointer;
+							&:active {
+								box-shadow: none;
+								position: relative;
+								top: 0.2em;
+							}
+						`}>
+						↓
+					</button>
+				</div>
+				<div
 					css={css`
-						display: grid;
-						place-items: center;
-						margin: auto;
-						width: 48px;
-						height: 48px;
-						text-shadow: -1px -1px black, 1px 1px white;
-						font-size: 24px;
-						color: #888;
-						background-color: #333;
-						border-radius: 50%;
-						border-color: #333;
-						box-shadow: 0 0.2em #333;
-						cursor: pointer;
-						&:active {
-							box-shadow: none;
-							position: relative;
-							top: 0.2em;
-						}
+						flex: 1;
+						position: relative;
 					`}>
-					B
-				</button>
+					<button
+						onMouseDown={() =>
+							WasmBoy.setJoypadState({
+								UP: false,
+								RIGHT: false,
+								DOWN: false,
+								LEFT: false,
+								A: true,
+								B: false,
+								SELECT: false,
+								START: false,
+							})
+						}
+						onMouseUp={() =>
+							WasmBoy.setJoypadState({
+								UP: false,
+								RIGHT: false,
+								DOWN: false,
+								LEFT: false,
+								A: false,
+								B: false,
+								SELECT: false,
+								START: false,
+							})
+						}
+						css={css`
+							transform: translate3d(120%, 20%, 0);
+							display: grid;
+							place-items: center;
+							margin: auto;
+							width: 48px;
+							height: 48px;
+							text-shadow: -1px -1px black, 1px 1px white;
+							font-size: 24px;
+							color: #888;
+							background-color: #333;
+							border-radius: 50%;
+							border-color: #333;
+							box-shadow: 0 0.2em #333;
+							cursor: pointer;
+							&:active {
+								box-shadow: none;
+								position: relative;
+								top: 0.2em;
+							}
+						`}>
+						A
+					</button>
+					<button
+						onMouseDown={() =>
+							WasmBoy.setJoypadState({
+								UP: false,
+								RIGHT: false,
+								DOWN: false,
+								LEFT: false,
+								A: false,
+								B: true,
+								SELECT: false,
+								START: false,
+							})
+						}
+						onMouseUp={() =>
+							WasmBoy.setJoypadState({
+								UP: false,
+								RIGHT: false,
+								DOWN: false,
+								LEFT: false,
+								A: false,
+								B: false,
+								SELECT: false,
+								START: false,
+							})
+						}
+						css={css`
+							display: grid;
+							place-items: center;
+							margin: auto;
+							width: 48px;
+							height: 48px;
+							text-shadow: -1px -1px black, 1px 1px white;
+							font-size: 24px;
+							color: #888;
+							background-color: #333;
+							border-radius: 50%;
+							border-color: #333;
+							box-shadow: 0 0.2em #333;
+							cursor: pointer;
+							&:active {
+								box-shadow: none;
+								position: relative;
+								top: 0.2em;
+							}
+						`}>
+						B
+					</button>
+				</div>
 			</div>
 
 			<div
 				css={css`
 					max-width: 300px;
-					margin: 20px auto;
+					margin: 40px auto;
 					display: flex;
 					justify-content: center;
 					gap: 20px;
